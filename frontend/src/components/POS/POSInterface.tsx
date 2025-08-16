@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { LogOut, User, Clock } from 'lucide-react';
 import ProductGrid from './ProductGrid';
 import Cart from './Cart';
+import InventoryModal from './InventoryModal';
 
 const POSInterface: React.FC = () => {
   const { user, logout } = useAuth();
+  const [showInventory, setShowInventory] = useState(false);
   
   const getCurrentTime = () => {
     return new Date().toLocaleString('en-US', {
@@ -60,6 +62,14 @@ const POSInterface: React.FC = () => {
               <LogOut className="w-4 h-4" />
               <span>Logout</span>
             </button>
+            {user?.role === 'admin' && (
+              <button
+                className="btn-secondary"
+                onClick={() => setShowInventory(true)}
+              >
+                Inventory
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -85,6 +95,10 @@ const POSInterface: React.FC = () => {
           <Cart />
         </div>
       </div>
+
+      {showInventory && (
+        <InventoryModal onClose={() => setShowInventory(false)} />
+      )}
     </div>
   );
 };

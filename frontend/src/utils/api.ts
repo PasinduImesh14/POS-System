@@ -72,6 +72,9 @@ export const productsApi = {
     return response.data;
   },
   
+  updateStock: (id: number, data: any) =>
+    axios.put(`/api/products/${id}`, data).then(res => res.data),
+  
   delete: async (id: number): Promise<void> => {
     await api.delete(`/products/${id}`);
   },
